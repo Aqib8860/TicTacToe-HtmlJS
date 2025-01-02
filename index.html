@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>    
+    
+    <div class="container">
+        <div style="display: flex;">
+            
+            <button id="0" class="box box-border" onclick="play(this)"></button>
+            <button id="1" class="box box-border" onclick="play(this)" ></button>
+            <button id="2" class="box box-border remove-right-border" onclick="play(this)"></button>
+        </div>
+
+        <div style="display: flex;">
+            <button id="3" class="box box-border" onclick="play(this)"></button>
+            <button id="4" class="box box-border" onclick="play(this)"></button>
+            <button id="5" class="box box-border remove-right-border" onclick="play(this)"></button>
+        </div>
+            
+        <div style="display: flex;">
+            <button id="6" class="box box-border remove-btm-border" onclick="play(this)"></button>
+            <button id="7" class="box box-border remove-btm-border" onclick="play(this)"></button>
+            <button id="8" class="box box-border remove-btm-border remove-right-border" onclick="play(this)"></button>
+        </div>
+        <br><br><br><br>
+        <button class="reset" onclick="reset_button(this)">Reset</button>
+
+        <br><br><br>
+        <div id="winner-message" style="font-size: 26px; color: black;"></div>
+    </div>
+</body>
+
+<script>
+    let last_played = "X";
+    
+    let button_inner_text = undefined;
+
+    let count = 0;
+    game_over = false;
+
+    let row = [null ,null ,null ,null ,null ,null ,null ,null ,null ];
+
+    const play = (button) => {
+        console.log("Button id ", button.id);
+
+        if (game_over){
+            return;
+        }
+
+        if (last_played === "X") {
+            row[button.id] = "0";
+            button.innerText = "0";
+        }
+        
+        else if (last_played === "0") {
+            row[button.id] = "X";
+            button.innerText = "X";
+        }
+
+        last_played = button.innerText;
+        
+        check_winner(0, 1, 2);
+        check_winner(3, 4, 5);
+        check_winner(6, 7, 8);
+
+        check_winner(0, 3, 6);
+        check_winner(1, 4, 7);
+        check_winner(2, 5, 8);
+
+        check_winner(0, 4, 8);
+        check_winner(2, 4, 6);
+        if (row.includes(null)){
+            play_computer(button);
+        }
+        else{
+            game_over = true;
+            winner_msg_div.innerText = "It's a draw!";
+        }
+
+    }
+
+    const play_computer = (button) => {
+        if (last_played === "0"){
+            
+            random_number = Math.floor(Math.random() * 9);
+            while (row[random_number]!=null){
+                random_number = Math.floor(Math.random() * 9);
+            }
+
+            const button = document.getElementById(random_number);
+
+            play(button);
+        }
+    }
+
+    const check_winner = (index_1, index_2, index_3) => {
+        winner_msg_div = document.getElementById("winner-message");
+
+        if (row[index_1] === last_played && row[index_2] === last_played && row[index_3] === last_played){
+            winner_msg_div.innerText = `Player ${last_played} wins!`;
+            game_over = true;
+            return ;
+        }
+
+    }
+
+
+    const reset_button = () => {
+        last_played = "X";    
+        
+        button_inner_text = undefined;
+
+        row = [null ,null ,null ,null ,null ,null ,null ,null ,null ];
+
+        game_over = false;
+
+        document.querySelectorAll('.box').forEach(button => button.innerText = "");
+        document.getElementById("winner-message").innerText = "";
+        return;
+    }
+
+</script>
+</html>

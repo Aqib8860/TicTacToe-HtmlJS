@@ -1,0 +1,36 @@
+body {
+    background-color: darkslategrey;
+}
+.container {
+    padding-top: 20dvh;
+    padding-left: 20dvh;
+    
+}
+
+.box {
+    background-color: darkslategrey;
+    border: none;
+    height: 10dvh;
+    width: 10dvh;
+    align-items: center;
+    text-align: center;
+    font-size: 5dvh;
+}
+
+.box-border {
+    border-right: solid 4px black;
+    border-bottom: solid 4px black;
+}
+
+.remove-btm-border {
+    border-bottom: none; 
+}
+
+.remove-right-border {
+    border-right: none; 
+}
+
+.reset {
+    background-color: cadetblue;
+    padding: 2dvh 5dvh;
+}
